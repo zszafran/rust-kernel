@@ -12,6 +12,7 @@
         "git.confirmSync": false,
         "editor.minimap.enabled": false,
         "editor.formatOnSave": true,
+        "editor.tabSize": 2,
         "rust.sysroot": "target/sysroot",
         "rust.all_targets": false
     },
@@ -20,12 +21,15 @@
     ],
     "mounts": [
         "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
-        "source=monorepo-zsh_history,target=/zsh_history,type=volume"
+        "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind",
+        "source=kernel-zsh_history,target=/zsh_history,type=volume",
+        "source=kernel-target,target=${containerWorkspaceFolder}/target,type=volume"
     ],
     "extensions": [
         "rust-lang.rust",
         "serayuzgur.crates",
         "bungcip.better-toml",
-        "ms-azuretools.vscode-docker"
+        "ms-azuretools.vscode-docker",
+        "pkief.material-icon-theme",
     ]
 }

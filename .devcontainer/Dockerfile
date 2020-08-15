@@ -14,7 +14,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 # Utils
 RUN apt-get update \
-  && apt-get -y install vim zsh \
+  && apt-get -y install vim zsh qemu qemu-system \
   && apt-get autoremove -y \
   && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/*
@@ -26,10 +26,14 @@ COPY zshrc /root/.zshrc
 # Dev Env
 ENV DEBIAN_FRONTEND=dialog
 ENV PATH=/root/.cargo/bin:$PATH
+ENV DISPLAY=:0
 
 # Rust Components
-RUN rustup component add rust-analysis --toolchain stable-x86_64-unknown-linux-gnu
-RUN rustup component add rust-src --toolchain stable-x86_64-unknown-linux-gnu
-RUN rustup component add rls --toolchain stable-x86_64-unknown-linux-gnu
+RUN rustup override set nightly
+RUN rustup component add rust-analysis --toolchain nightly-x86_64-unknown-linux-gnu
+RUN rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
+RUN rustup component add rls --toolchain nightly-x86_64-unknown-linux-gnu
+RUN rustup component add llvm-tools-preview
+RUN cargo install bootimage
 
 CMD /bin/zsh -l
