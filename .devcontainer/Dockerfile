@@ -27,4 +27,9 @@ COPY zshrc /root/.zshrc
 ENV DEBIAN_FRONTEND=dialog
 ENV PATH=/root/.cargo/bin:$PATH
 
+# Rust Components
+RUN rustup component add rust-analysis --toolchain stable-x86_64-unknown-linux-gnu
+RUN rustup component add rust-src --toolchain stable-x86_64-unknown-linux-gnu
+RUN rustup component add rls --toolchain stable-x86_64-unknown-linux-gnu
+
 CMD /bin/zsh -l
