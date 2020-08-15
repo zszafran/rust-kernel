@@ -1,0 +1,26 @@
+{
+    "name": "Rust Kernel",
+    "dockerFile": "Dockerfile",
+    "settings": {
+        "workbench.iconTheme": "material-icon-theme",
+        "terminal.integrated.shell.linux": "/bin/zsh",
+        "terminal.explorerKind": "external",
+        "remote.containers.workspaceMountConsistency": "delegated",
+        "git.autofetch": true,
+        "git.enableSmartCommit": true,
+        "git.fetchOnPull": false,
+        "git.confirmSync": false,
+        "editor.minimap.enabled": false,
+        "editor.formatOnSave": true
+    },
+    "appPort": [
+        "8080:8080"
+    ],
+    "mounts": [
+        "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
+        "source=monorepo-zsh_history,target=/zsh_history,type=volume"
+    ],
+    "extensions": [
+		"rust-lang.rust"
+	]
+}
