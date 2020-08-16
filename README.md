@@ -9,3 +9,7 @@ More info here: https://os.phil-opp.com/
 ## QEMU
 
 - `CTRL + ALT + 2` then `quit` to exit
+
+## TODO
+
+- [ ] [Naked Exceptions](https://os.phil-opp.com/first-edition/extra/naked-exceptions/)
