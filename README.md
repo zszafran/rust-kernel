@@ -8,6 +8,7 @@ More info here: https://os.phil-opp.com/
 
 ## QEMU
 
+- Run `xhost +local:` on host machine
 - `CTRL + ALT + 2` then `quit` to exit
 
 ## TODO
