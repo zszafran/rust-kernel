@@ -8,8 +8,11 @@ More info here: https://os.phil-opp.com/
 
 ## QEMU
 
-- Run `xhost +local:` on host machine
 - `CTRL + ALT + 2` then `quit` to exit
+
+> **Linux**: Run `xhost +local:` on the host machine
+
+> **OSX**: Install `xQuartz`, enable `Allow connections from network clients`, and run `xhost + 127.0.01` on the host machine. Set env `DISPLAY=host.docker.internal:0` inside the docker container.
 
 ## TODO
 

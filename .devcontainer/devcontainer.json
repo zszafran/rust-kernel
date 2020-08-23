@@ -31,5 +31,6 @@
         "bungcip.better-toml",
         "ms-azuretools.vscode-docker",
         "pkief.material-icon-theme",
+        "shd101wyy.markdown-preview-enhanced",
     ]
 }
