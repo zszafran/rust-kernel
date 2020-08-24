@@ -1,6 +1,12 @@
 {
     "name": "Rust Kernel",
     "dockerFile": "Dockerfile",
+    "runArgs": [
+        "--net",
+        "host",
+        "-e",
+        "DISPLAY=${env:DISPLAY}",
+    ],
     "settings": {
         "workbench.iconTheme": "material-icon-theme",
         "terminal.integrated.shell.linux": "/bin/zsh",

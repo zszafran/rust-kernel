@@ -12,7 +12,7 @@ More info here: https://os.phil-opp.com/
 
 > **Linux**: Run `xhost +local:` on the host machine
 
-> **OSX**: Install `xQuartz`, enable `Allow connections from network clients`, and run `xhost + 127.0.01` on the host machine. Set env `DISPLAY=host.docker.internal:0` inside the docker container.
+> **OSX**: Install `xQuartz`, enable `Allow connections from network clients`, and run `xhost + 127.0.01` on the host machine. Set env `DISPLAY=docker.for.mac.host.internal:0` inside the docker container.
 
 ## TODO
 

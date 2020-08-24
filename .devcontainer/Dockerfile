@@ -26,7 +26,6 @@ COPY zshrc /root/.zshrc
 # Dev Env
 ENV DEBIAN_FRONTEND=dialog
 ENV PATH=/root/.cargo/bin:$PATH
-ENV DISPLAY=:0
 
 # Rust Components
 RUN rustup override set nightly
