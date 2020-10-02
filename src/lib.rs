@@ -82,9 +82,16 @@ fn panic(info: &PanicInfo) -> ! {
 }
 
 pub fn init() {
+  println!("# Initializing GDT...");
   gdt::init();
+
+  println!("# Initializing IDT...");
   interrupts::init_idt();
+
+  println!("# Initializing Interrupts...");
   unsafe { interrupts::PICS.lock().initialize() };
+
+  println!("# Enable Interrupts...");
   x86_64::instructions::interrupts::enable();
 }
 

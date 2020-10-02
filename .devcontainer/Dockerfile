@@ -28,10 +28,14 @@ ENV DEBIAN_FRONTEND=dialog
 ENV PATH=/root/.cargo/bin:$PATH
 
 # Rust Components
-RUN rustup override set nightly
-RUN rustup component add rust-analysis --toolchain nightly-x86_64-unknown-linux-gnu
-RUN rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
-RUN rustup component add rls --toolchain nightly-x86_64-unknown-linux-gnu
+RUN rustup toolchain add nightly-2020-10-02-x86_64-unknown-linux-gnu
+RUN rustup default nightly-2020-10-02-x86_64-unknown-linux-gnu
+RUN rustup override set nightly-2020-10-02
+
+# RUN rustup override set nightly
+RUN rustup component add rust-analysis
+RUN rustup component add rust-src
+RUN rustup component add rls
 RUN rustup component add llvm-tools-preview
 RUN cargo install bootimage
 
