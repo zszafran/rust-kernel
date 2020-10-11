@@ -2,7 +2,7 @@ use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame, Pag
 use lazy_static::lazy_static;
 use pic8259_simple::ChainedPics;
 use spin;
-use crate::{println, print, gdt, hlt_loop};
+use crate::{println, print, arch::x86_64::tss};
 
 pub const PIC_1_OFFSET: u8 = 32;
 pub const PIC_2_OFFSET: u8 = PIC_1_OFFSET + 8;
@@ -37,7 +37,7 @@ lazy_static! {
       idt
         .double_fault
         .set_handler_fn(double_fault_handler)
-        .set_stack_index(gdt::DOUBLE_FAULT_IST_INDEX);
+        .set_stack_index(tss::DOUBLE_FAULT_IST_INDEX);
     }
     idt.page_fault.set_handler_fn(page_fault_handler);
 
@@ -74,7 +74,7 @@ extern "x86-interrupt" fn page_fault_handler(
   println!("Accessed Address: {:?}", Cr2::read());
   println!("Error Code: {:?}", error_code);
   println!("{:#?}", stack_frame);
-  hlt_loop();
+  crate::arch::cpu::hlt_loop();
 }
 
 extern "x86-interrupt" fn timer_interrupt_handler(_stack_frame: &mut InterruptStackFrame) {

@@ -1,14 +1,13 @@
 #![no_std]
 #![no_main]
 #![feature(custom_test_frameworks)]
-#![test_runner(rust_kernel::test_runner)]
+#![test_runner(rust_kernel::test::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
 extern crate rlibc;
 extern crate alloc;
 
 use core::panic::PanicInfo;
-use rust_kernel::println;
 use rust_kernel::task::{Task, executor::Executor};
 use rust_kernel::task::keyboard;
 use bootloader::{BootInfo, entry_point};
@@ -17,11 +16,9 @@ entry_point!(kernel_main);
 
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
   use rust_kernel::allocator;
-  use rust_kernel::memory;
-  use rust_kernel::memory::BootInfoFrameAllocator;
+  use rust_kernel::arch::memory;
+  use rust_kernel::arch::memory::BootInfoFrameAllocator;
   use x86_64::VirtAddr;
-
-  println!("Hello World{}", "!");
 
   rust_kernel::init();
 
@@ -43,17 +40,12 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
 #[cfg(not(test))]
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
-  println!("{}", info);
-  rust_kernel::hlt_loop();
+  rust_kernel::println!("{}", info);
+  rust_kernel::arch::cpu::hlt_loop();
 }
 
 #[cfg(test)]
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
-  rust_kernel::test_panic_handler(info)
-}
-
-#[test_case]
-fn trivial_assertion() {
-  assert_eq!(1, 1);
+  rust_kernel::test::test_panic_handler(info)
 }

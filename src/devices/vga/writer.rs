@@ -1,53 +1,17 @@
-use volatile::Volatile;
-use core::fmt;
 use lazy_static::lazy_static;
+use core::fmt;
 use spin::Mutex;
 
-#[allow(dead_code)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[repr(u8)]
-pub enum Color {
-  Black = 0,
-  Blue = 1,
-  Green = 2,
-  Cyan = 3,
-  Red = 4,
-  Magenta = 5,
-  Brown = 6,
-  LightGray = 7,
-  DarkGray = 8,
-  LightBlue = 9,
-  LightGreen = 10,
-  LightCyan = 11,
-  LightRed = 12,
-  Pink = 13,
-  Yellow = 14,
-  White = 15,
-}
+use crate::devices::vga::color::{ColorCode, Color};
+use crate::devices::vga::buffer::{BUFFER_HEIGHT, BUFFER_WIDTH, Buffer};
+use crate::devices::vga::screen_char::ScreenChar;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[repr(transparent)]
-struct ColorCode(u8);
-
-impl ColorCode {
-  fn new(foreground: Color, background: Color) -> ColorCode {
-    ColorCode((background as u8) << 4 | (foreground as u8))
-  }
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[repr(C)]
-struct ScreenChar {
-  ascii_character: u8,
-  color_code: ColorCode,
-}
-
-const BUFFER_HEIGHT: usize = 25;
-const BUFFER_WIDTH: usize = 80;
-
-#[repr(transparent)]
-struct Buffer {
-  chars: [[Volatile<ScreenChar>; BUFFER_WIDTH]; BUFFER_HEIGHT],
+lazy_static! {
+  pub static ref WRITER: Mutex<Writer> = Mutex::new(Writer {
+    column_position: 0,
+    color_code: ColorCode::new(Color::Yellow, Color::Black),
+    buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
+  });
 }
 
 pub struct Writer {
@@ -118,17 +82,9 @@ impl fmt::Write for Writer {
   }
 }
 
-lazy_static! {
-  pub static ref WRITER: Mutex<Writer> = Mutex::new(Writer {
-    column_position: 0,
-    color_code: ColorCode::new(Color::Yellow, Color::Black),
-    buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
-  });
-}
-
 #[macro_export]
 macro_rules! print {
-    ($($arg:tt)*) => ($crate::vga_buffer::_print(format_args!($($arg)*)));
+    ($($arg:tt)*) => ($crate::devices::vga::writer::_print(format_args!($($arg)*)));
 }
 
 #[macro_export]

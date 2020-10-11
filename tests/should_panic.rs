@@ -1,7 +1,10 @@
 #![no_std]
 #![no_main]
 
-use rust_kernel::{exit_qemu, serial_print, serial_println, QemuExitCode};
+use rust_kernel::{
+  devices::qemu::{QemuExitCode, exit_qemu},
+  serial_print, serial_println,
+};
 use core::panic::PanicInfo;
 
 #[no_mangle]
